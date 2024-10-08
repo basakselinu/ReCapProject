@@ -1,2 +1,35 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+﻿using Business.Concrete;
+using DataAccess.Abstract;
+using DataAccess.Concrete.InMemory;
+using Entities.Concrete;
+using System;
+
+namespace ConsoleUI
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Car car1 = new Car();
+            car1.CarId = 6;
+            car1.BrandId = 2;
+            car1.ColorId = 1;
+            car1.Description = "Renault R9";
+            car1.DailyPrice = 205000;
+            car1.ModelYear = 1999;
+
+
+            CarManager carManager = new CarManager(new InMemoryCarDal());
+
+            carManager.Add(car1);
+            car1.Description = "Renault R99";
+            carManager.Update(car1);
+            carManager.Delete(car1);
+            carManager.GetById(1);
+            foreach (var car in carManager.GetAll())
+            {
+                Console.WriteLine(car.Description);
+            }
+        }
+    }
+}
