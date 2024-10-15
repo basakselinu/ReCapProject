@@ -12,12 +12,86 @@ namespace ConsoleUI
         static void Main(string[] args)
         {
 
-            CarTest();
+            //CarTest();
             //ColorTest();
             //BrandTest();
+            RentalTest();
+            //UserTest();
+            //CustomerTest();
+
 
         }
+        private static void CustomerTest()
+        {
+            Console.WriteLine("-----GetAll-----");
+            CustomerManager customerManager = new CustomerManager(new EfCustomerDal());
+            customerManager.Add(new Customer
+            {
+               CompanyName="Ünsal Yazılım",
+               UserId=1
+               
+            });
 
+            var result = customerManager.GetAll();
+            if (result.Success == true)
+            {
+                foreach (var user in result.Data)
+                {
+                    Console.WriteLine(user.CompanyName);
+                }
+            }
+            else
+            {
+                Console.WriteLine(result.Message);
+            }
+        }
+        private static void UserTest()
+        {
+            Console.WriteLine("-----GetAll-----");
+            UserManager userManager = new UserManager(new EfUserDal());
+            userManager.Add(new User
+            {
+                FirstName = "Başak Selin",
+                LastName = "Ünsal",
+                Email = "basak@gmail.com",
+                Password = "12345"
+            });
+
+            var result = userManager.GetAll();
+            if (result.Success==true)
+            {
+                foreach (var user in result.Data)
+                {
+                    Console.WriteLine(user.FirstName+" "+user.LastName+" -- "+user.Email);
+                }
+            }
+            else
+            {
+                Console.WriteLine(result.Message);
+            }
+        }
+        private static void RentalTest()
+        {
+            Console.WriteLine("-----GetAll-----");
+            RentalManager rentalManager = new RentalManager(new EfRentalDal());
+            var result = rentalManager.GetRentalDetails();
+            if (result.Success == true)
+            {
+                foreach (var rental in result.Data)
+                {
+                    Console.WriteLine(
+                        rental.CarName+" -- "+
+                        rental.CustomerName+" -- "+
+                        rental.RentDate.Date.ToString("dd MM yyyy")+" -- "+
+                        rental.ReturnDate.ToString()
+                        );
+                }
+            }
+            else
+            {
+                Console.WriteLine(result.Message);
+            }           
+        }
         private static void BrandTest()
         {
             Console.WriteLine("-----GetAll-----");

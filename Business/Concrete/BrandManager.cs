@@ -22,11 +22,7 @@ namespace Business.Concrete
         }
 
         public IResult Add(Brand brand)
-        {
-            if (brand.BrandName.Length<2)
-            {
-                return new ErrorResult(Messages.BrandNameInValid);
-            }
+        {         
             _brandDal.Add(brand);
             return new SuccessResult(Messages.BrandAdded);
         }
