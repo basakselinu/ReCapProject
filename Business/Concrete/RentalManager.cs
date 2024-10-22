@@ -1,5 +1,7 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation;
+using Core.CrossCuttingConcerns.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
@@ -25,6 +27,7 @@ namespace Business.Concrete
         public IResult Add(Rental rental)
         {
             //Araba daha önceden kiralandı mı? , Araba teslim edildi mi?
+            ValidationTool.Validate(new RentalValidator(), rental);
             var rentACar = _rentalDal.Get(r => r.CarId == rental.CarId && r.ReturnDate==null);
             if (rentACar == null)
             {
